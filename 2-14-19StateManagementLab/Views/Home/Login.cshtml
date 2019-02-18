@@ -1,0 +1,12 @@
+﻿<h1>Please login.</h1>
+@if (ViewBag.ErrorMessage != null)
+{
+    <h3> @ViewBag.ErrorMessage</h3>
+}
+
+<form action="LoggedInUser" method="post">
+    <input name="Email" type="email" placeholder="Email" class="form-control" required />
+    <input name="Password" type="password" placeholder="Password" class="form-control" required />
+    <input type="submit" />
+
+</form>

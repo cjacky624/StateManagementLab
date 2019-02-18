@@ -9,6 +9,16 @@ namespace _2_14_19StateManagementLab.Controllers
 {
     public class HomeController : Controller
     {
+        List<Item> ItemList = new List<Item>()
+        {
+            new Item("Hot Chocolate", "Milk, Cocoa, Sugar, Fat", 1.99),
+            new Item("Latte",  "Milk, Coffee", 1.99),
+            new Item("Coffee",  "Coffee, Water", 1.00),
+            new Item("Tea", "Black Tea", 1.00),
+            new Item("Frozen Lemonade",  "Lemon, Sugar, Ice", 1.99)
+        };
+        List<Item> ShoppingCart = new List<Item>();
+
         public ActionResult Index()
         {
             ViewBag.CurrentUser = (User)Session["CurrentUser"];
@@ -17,24 +27,14 @@ namespace _2_14_19StateManagementLab.Controllers
 
         public ActionResult About()
         {
-            if (!TempData.ContainsKey("HappyMessage"))
-            {
-                TempData.Add("HappyMessage", "Happy Valentine's Day!");
-            }
-            ViewBag.Message = "This is the about page.";
+            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            if (TempData.ContainsKey("HappyMessage"))
-            {
-                ViewBag.Message = TempData["HappyMessage"];
-                TempData["HappyMessage"] = TempData["HappyMessage"];
-            }
-            //ViewBag.Message = TempData["HappyMessage"];
-            //TempData["HappyMessage"] = TempData["HappyMessage"]; //This is how you keep it living one more time
+            ViewBag.Message = "Your contact page.";
 
             return View();
         }
@@ -43,6 +43,29 @@ namespace _2_14_19StateManagementLab.Controllers
         {
             return View();
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        List<User> UserList = new List<User>();
+
+        public ActionResult LoggedInUser(User newUser)
+        {
+            if (Session["CurrentUser"] != null)
+            {
+                newUser = (User)Session["CurrentUser"];
+            }
+            if (Session["AllUsers"] != null)
+            {
+                UserList = (List<User>)Session["AllUsers"];
+            }
+
+            return RedirectToAction("Login", new { message = "Login failed. Please try again." });
+        }
+
+
 
         public ActionResult Result(User u)
         {
@@ -82,6 +105,31 @@ namespace _2_14_19StateManagementLab.Controllers
         {
             Session.Remove("CurrentUser"); //removes key and value from session, so session will no longer exist
             return RedirectToAction("Index"); //return to homepage
+        }
+
+        public ActionResult ListItems()
+        {
+            ViewBag.ItemsList = ItemList;
+            return View();
+        }
+
+        public ActionResult AddItem(string itemName)
+        {
+            if (Session["ShoppingCart"] != null)
+            {
+                ShoppingCart = (List<Item>)Session["ShoppingCart"];
+            }
+
+            foreach (Item item in ItemList)
+            {              //find item in list
+                if (item.ItemName == itemName)
+                {
+                    ShoppingCart.Add(item);
+                }
+            }
+
+            Session["ShoppingCart"] = ShoppingCart;
+            return RedirectToAction("ListItems");
         }
 
     }

@@ -1,0 +1,50 @@
+﻿@{ViewBag.Title = "UserDetails";}
+@{ViewBag.Title = "CartItemsTotal";}
+@{ViewBag.Title = "CartTotalCost";}
+
+<div class="RegBox">
+    <div class="CenterRegBox">
+        @if (ViewBag.CurrentUser != null)
+        {
+
+            <h2>These items are currently in your cart, @ViewBag.CurrentUser.UserName!</h2>
+
+            <h2>List Items</h2>
+
+            <table class="table">
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                </tr>
+                @if (ViewBag.ItemsList == null)
+                {
+                    <tr>
+                        <td>Cart is empty.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in ViewBag.ItemsList)
+                    {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>@string.Format("{0:N2}", item.Price)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <th>Total:</th>
+                        <th>@ViewBag.Total</th>
+                        <th></th>
+                    </tr>
+                }
+            </table>
+
+
+            @Html.ActionLink("Logout", "LogOut", "Home")
+        }
+        else
+        {
+            <h2>This page is not available.</h2>
+        }
+    </div>
+</div>
