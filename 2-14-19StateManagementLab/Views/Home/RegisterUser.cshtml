@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "RegisterUser";
+}
+
+<link href="~/Content/JackyStyle.css" rel="stylesheet" type="text/css" />
+
+<h2>User Registration Form</h2>
+<form action="~/Home/UserDetails" method="post">
+    <p><input type="text" name="UserName" placeholder="User Name"/></p>
+    <p><input type="email" name="Email" placeholder="Email" /></p>
+    <p><input type="password" name="Password" placeholder="Password" /></p>
+    <p><input type="number" name="Age" placeholder="Age" /></p>
+    <input type="submit" name="Register!" />
+</form>
+@if (ViewBag.ErrorMessage != null)
+{
+    <h3>@ViewBag.ErrorMessage</h3>
+}

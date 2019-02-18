@@ -1,0 +1,13 @@
+﻿@if (ViewBag.CurrentUser == null)
+{
+    <a href="~/Home/RegisterUser">Register Here!</a>
+}
+else
+{
+    <p>Hello, @ViewBag.CurrentUser.UserName</p>
+}
+
+@if (ViewBag.CurrentUser != null)
+{
+    @Html.ActionLink("Logout User", "LogOut", "Home")
+}
